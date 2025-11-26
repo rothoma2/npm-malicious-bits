@@ -16,6 +16,7 @@ class AffectedPackage:
     published: Optional[str] = None
     package_name: str = ""
     versions: Optional[List[str]] = None
+    reporter: str = "unknown"
 
     def __str__(self) -> str:
         return f"{self.package_name} (published: {self.published})"
@@ -26,7 +27,8 @@ class AffectedPackage:
             'ecosystem': self.ecosystem,
             'package_name': self.package_name,
             'published': self.published,
-            'versions': ', '.join(self.versions) if self.versions else None
+            'versions': ', '.join(self.versions) if self.versions else None,
+            'reporter': self.reporter
         }
         return result
 
@@ -119,7 +121,7 @@ class MaliciousPackageReport:
                     if published_dt >= cutoff_time:
                         recent_packages.append(pkg)
                         
-                except (ValueError, TypeError) as e:
+                except (ValueError, TypeError):
                     # Skip packages with invalid date formats
                     continue
         
