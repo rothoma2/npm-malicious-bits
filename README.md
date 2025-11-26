@@ -1,6 +1,6 @@
 # npm-malicious-bits
 
-A command-line tool for collecting and managing Indicators of Compromise (IOCs) from malicious Open Source Software (OSS) packages across multiple ecosystems.
+A command-line tool for collecting and managing Indicators of Compromise (IOCs) from malicious Open Source Software (OSS) packages reports across multiple ecosystems and OSINT reports. Unfortunately Open Source Supply Chain Security is under threat at the moment by Nation State Actors.
 
 ## Overview
 
@@ -8,10 +8,10 @@ A command-line tool for collecting and managing Indicators of Compromise (IOCs) 
 
 ## Features
 
-- 🔍 **Multi-source Collection**: Collects IOCs from trusted sources like the OpenSSF Malicious Packages repository
+- 🔍 **Multi-source Collection**: Collects IOCs from trusted sources like the OpenSSF Malicious Packages repository, AIKIDO API.
 - ⏱️ **Time-based Filtering**: Filter packages by publication date with customizable lookback windows
 - 📊 **Ecosystem Analysis**: Track malicious packages across multiple package ecosystems
-- 💾 **Export Capabilities**: Save results in JSON format for further analysis
+- 💾 **OSV Format**: Standard OSV Format across supported sources
 - 🚀 **Easy to Use**: Simple CLI interface with intuitive commands
 
 ## Installation
@@ -22,19 +22,11 @@ A command-line tool for collecting and managing Indicators of Compromise (IOCs) 
 # Clone the repository
 git clone https://github.com/rothoma2/npm-malicious-bits.git
 cd npm-malicious-bits
+python -m venv .venv
+source .venv/bin/activate
 
 # Install dependencies
 poetry install
-
-# Activate the virtual environment
-poetry shell
-```
-
-### Using pip
-
-```bash
-pip install -e .
-```
 
 ## Usage
 
@@ -48,27 +40,23 @@ npm-iocs collect
 
 This will:
 - Clone the OpenSSF malicious packages repository
+- Collect from the Aikido Intel API latest reports.
 - Count and report the number of JSON files containing IOCs
 - Display statistics about the collected data
 
-Save results to a file:
-
-```bash
-npm-iocs collect --output malicious_packages.json
-```
 
 ### Parse Recent Packages
 
 Filter and display packages published within a specific time window (default: 72 hours):
 
 ```bash
-npm-iocs recent /path/to/malicious/packages
+npm-iocs recent
 ```
 
 Example with custom time window (last 24 hours):
 
 ```bash
-npm-iocs recent --hours 24 /tmp/ossf_malicious_packages_uo2_bna4
+npm-iocs recent --hours 24
 ```
 
 This will display:
@@ -82,11 +70,6 @@ This will display:
   - Malware IDs
   - Summaries
 
-Save filtered results:
-
-```bash
-npm-iocs recent --hours 48 /path/to/packages --output recent_threats.json
-```
 
 ### Clone OpenSSF Repository
 
@@ -96,26 +79,14 @@ Clone the OpenSSF malicious packages repository locally:
 npm-iocs clone-ossf --path /path/to/local/directory
 ```
 
-### Parse All Packages
-
-Parse all JSON files in a directory without time filtering:
-
-```bash
-npm-iocs parse /path/to/malicious/packages
-```
-
-With output file:
-
-```bash
-npm-iocs parse /path/to/packages --output all_packages.json
-```
-
 
 ## Data Sources
 
 ### Currently Supported
 
 - **[OpenSSF Malicious Packages](https://github.com/ossf/malicious-packages)**: A comprehensive repository maintained by the Open Source Security Foundation containing reports of malicious packages across multiple ecosystems.
+
+- **[Aikido Open Source Threat Feed](https://www.aikido.dev/blog/launching-aikido-malware---open-source-threat-feed)**: A real-time malware detection API powered by Aikido Security that monitors npm packages and provides instant threat intelligence. The feed analyzes packages using multiple detection methods and provides up-to-date information on malicious packages with low false positive rates.
 
 ### Planned Support
 
@@ -131,7 +102,7 @@ npm-iocs parse /path/to/packages --output all_packages.json
 Check for new threats published in the last 24 hours:
 
 ```bash
-npm-iocs recent --hours 24 /path/to/ossf/repo/osv/malicious
+npm-iocs recent --hours 24 
 ```
 
 ### Weekly Security Review
@@ -177,7 +148,8 @@ MIT License - see LICENSE file for details.
 ## Acknowledgments
 
 - [OpenSSF](https://openssf.org/) for maintaining the malicious packages database
-- [Socket](https://socket.dev/) for security research contributions
+- [Aikido Security](https://www.aikido.dev/) for providing the Open Source Threat Feed API
+
 
 ## Support
 
