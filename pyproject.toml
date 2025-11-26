@@ -1,0 +1,21 @@
+[project]
+name = "npm-malicious-bits"
+version = "0.1.0"
+description = "Collector of NPM Malicious IOCs"
+authors = [
+    {name = "rothoma2",email = "thomcrnl@gmail.com"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "requests>=2.28.0",
+]
+
+[project.scripts]
+npm-iocs = "npm_malicious_bits.main:main"
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
